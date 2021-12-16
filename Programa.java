@@ -1,27 +1,58 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Programa {
     
+
     public static void main(String[] args) {
-        
-        Mobil mobilInicial = new Mobil();
+        Scanner in = new Scanner(System.in);
+        String str = "";
+        ArrayList<String> salida = new ArrayList<>();
+        Mobil mobil;
 
-        mobilInicial.calcularPeso();
+        Mobil.setIn(in);
 
-        System.out.println("Es estable? : " + mobilInicial.isEstable());
+        while(!str.equals("0 0 0 0")) {
+
+            str = in.nextLine();
+            
+            
+            if(!str.equals("0 0 0 0")) {
+
+                mobil = new Mobil(str);
+                mobil.calcularPeso();
+
+                if(mobil.isEstable()) {
+                    
+                    salida.add("SI");
+
+                } else {
+
+                    salida.add("NO");
+
+                }
+
+            } 
+
+        }
+        for ( String s : salida ) {
+
+            System.out.println(s);
+            
+        }
 
     }
 }
 
 class Mobil {
     
-    private static Scanner in = new Scanner(System.in);
+    private static Scanner in;
     private int[] dist = new int[2];       // dist[0]  -> distancia izquierda
     private int[] pesos = new int[2];      // peso[0]  -> peso izquierdo
     private Mobil[] mobiles = new Mobil[2];;   
     private int pesoTotal = 0;             // suma de pesos de los mobiles y pesos hijos
 
-    Mobil() {
+    Mobil(Scanner in) {
         this(in.nextLine());
     }
     Mobil(String lin) {
@@ -53,6 +84,11 @@ class Mobil {
         }
 
     }
+
+    public static void setIn(Scanner in) {
+        Mobil.in = in;
+    }
+
     public void calcularPeso() {
 
         for (int i : pesos) {
